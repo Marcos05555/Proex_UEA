@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_proex/screens/home_screen.dart';
+import 'package:mobile_proex/screens/info_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,8 +36,8 @@ class Dashboard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[ 
-              Cardconfig('Entrar', Icons.exit_to_app, null),
-              Cardconfig('Informações', Icons.info, null)
+              Cardconfig('ENTRAR', Icons.exit_to_app, HomeScreen()),
+              Cardconfig('INFORMAÇÕES', Icons.info, InfoScreen())
             ],
           ),
         ],

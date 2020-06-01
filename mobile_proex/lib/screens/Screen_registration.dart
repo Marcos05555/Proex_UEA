@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile_proex/Database/app_database.dart';
+import 'package:mobile_proex/modelos/user.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -79,11 +81,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: () {
                final String name = _controllerPaciente.text;
                 final int idade = int.tryParse(_controllerIdade.text);
-                //final String ifo  = Utility.base64String(_image.readAsBytesSync());
-                //final User usuario = User(2,name,int.tryParse(idade),ifo);
-                /*save(usuario).then((id){
+                final String ifo  = Utility.base64String(_image.readAsBytesSync());
+                final User usuario = User(2,name,idade,ifo);
+                save(usuario).then((id){
                   findAll().then((users) => debugPrint(users.toString()));
-                });*/
+                });
               Navigator.pop(context);
               },
             )

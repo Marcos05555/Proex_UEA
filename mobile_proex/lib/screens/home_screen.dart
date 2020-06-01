@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_proex/main.dart';
+import 'package:mobile_proex/screens/Screen_pacientes.dart';
 import 'package:mobile_proex/screens/Screen_registration.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -40,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            LisTileInfo(Icons.people, 'Pacientes', null),
+            LisTileInfo(Icons.people, 'Pacientes', PatientScreen()),
             LisTileInfo(Icons.person_add, 'Cadastrar paciente',RegisterScreen()),
             LisTileInfo(Icons.exit_to_app, 'SAIR', MyApp()),
           ],

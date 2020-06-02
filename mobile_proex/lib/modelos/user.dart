@@ -10,7 +10,7 @@ class User{
 
   User( this.id , this.logindeuser, this.idade, this.fotodeuser);
   String toString(){
-    return 'Contact{id: $id , name: $logindeuser, senha: $idade}';
+    return 'Contact{id: $id , name: $logindeuser, senha: $idade, foto: $fotodeuser}';
   }
 }
 

@@ -30,6 +30,7 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.white,
                           shape: BoxShape.circle,
                           image: new DecorationImage(
+                            fit: BoxFit.fill,
                               image: new ExactAssetImage(
                                   'image/Vestibular_UEA_2019_1.png')),
                         ),
@@ -42,7 +43,8 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             LisTileInfo(Icons.people, 'Pacientes', PatientScreen()),
-            LisTileInfo(Icons.person_add, 'Cadastrar paciente',RegisterScreen()),
+            LisTileInfo(
+                Icons.person_add, 'Cadastrar paciente', RegisterScreen()),
             LisTileInfo(Icons.exit_to_app, 'SAIR', MyApp()),
           ],
         ),

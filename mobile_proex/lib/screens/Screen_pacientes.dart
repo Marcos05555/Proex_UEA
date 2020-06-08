@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_proex/Database/app_database.dart';
 import 'package:mobile_proex/modelos/user.dart';
-import 'dart:convert';
 
 class PatientScreen extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -52,7 +53,9 @@ class _ContactItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: CircleAvatar(
+       // leading: FlutterLogo(),
+       // leading: Image.memory(base64Decode(paciente.fotodeuser),
+         leading: CircleAvatar(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           child: ClipOval(

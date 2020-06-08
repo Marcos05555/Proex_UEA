@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_proex/Database/app_database.dart';
 import 'package:mobile_proex/screens/home_screen.dart';
 import 'package:mobile_proex/screens/info_screen.dart';
 
@@ -10,12 +11,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+ createDatabase();
+ 
     return MaterialApp(
         theme: ThemeData(
             brightness: Brightness.light,
             primaryColor: Colors.green,
             buttonTheme: ButtonThemeData(
                 buttonColor: Colors.green, textTheme: ButtonTextTheme.primary)),
+                
         home: Dashboard());
   }
 }
@@ -68,7 +72,7 @@ class Cardconfig extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(8.0),
             height: 100,
-            width: 180,
+            width: 160,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_proex/Database/app_database.dart';
 import 'package:mobile_proex/modelos/user.dart';
@@ -15,28 +16,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _controllerIdade = TextEditingController();
 
   File _image;
-  
-  Future getImage(bool isCamera) async {
-    File image;
+  final _picker = ImagePicker();
+  bool _inProcess = false;
+
+  Future getImages(bool isCamera) async {
+    PickedFile image;
     if (isCamera) {
-      image = await ImagePicker.pickImage(source: ImageSource.camera);
+      image = await _picker.getImage(source: ImageSource.camera);
     } else {
-      image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      image = await _picker.getImage(source: ImageSource.gallery);
     }
     setState(() {
-      _image = image;
-      
-      
+      final File file = File(image.path);
+      _image = file;
+
       // String ee = Utility.base64String(_image.readAsBytesSync());
-      
     });
+  }
+
+  Future getImageWid(ImageSource source) async {
+    this.setState(() {
+      _inProcess = true;
+    });
+    final _picker = ImagePicker();
+    PickedFile imageModura;
+    imageModura = await _picker.getImage(source: source);
+    final File newimage = File(imageModura.path);
+    if (newimage != null) {
+      File cropped = await ImageCropper.cropImage(
+          sourcePath: newimage.path,
+          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+          compressQuality: 100,
+          maxHeight: 200,
+          maxWidth: 200,
+          compressFormat: ImageCompressFormat.jpg,
+          androidUiSettings: AndroidUiSettings(
+            toolbarColor: Colors.green,
+            toolbarTitle: "Imagem de usuario",
+            statusBarColor: Colors.white,
+            backgroundColor: Colors.white,
+          ));
+      this.setState(() {
+        _image = cropped;
+        _inProcess = false;
+      });
+    } else {
+      this.setState(() {
+        _inProcess = false;
+      });
+    }
   }
 
   Widget decideImageView() {
     if (_image == null) {
       return InkWell(
           onTap: () {
-            getImage(true);
+            return getImageWid(ImageSource.gallery);
           },
           child: Image.asset(
             'image/default-placeholder-1-2.png',
@@ -46,57 +81,63 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } else {
       return InkWell(
           onTap: () {
-            getImage(true);
+            return getImageWid(ImageSource.camera);
           },
           child: Image.file(
             _image,
-            width: 300.0,
-            height: 300.0,
+            width: 200.0,
+            height: 200.0,
+            fit: BoxFit.cover,
           ));
     }
   }
 
-  
-
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastro de Paciente'),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: <Widget>[
-            SizedBox(
-              height: 10.0,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 10.0,
+                ),
+                decideImageView(),
+                TextBox(Icons.people, 'Nome', 'Nome do Paciente',
+                    _controllerPaciente),
+                TextBox(Icons.lock_outline, 'Idade', 'Idade do Paciente',
+                    _controllerIdade),
+                RaisedButton(
+                  child: Text(
+                    'Confirmar',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () {
+                    final String name = _controllerPaciente.text;
+                    final int idade = int.tryParse(_controllerIdade.text);
+                    final String ifo =
+                        Utility.base64String(_image.readAsBytesSync());
+                    final User usuario = User(2, name, idade, ifo);
+                    save(usuario).then((id) {
+                      findAll().then((users) => null);
+                    });
+                    Navigator.pop(context);
+                  },
+                )
+                
+              ],
             ),
-             decideImageView(),
-            TextBox(Icons.people, 'Nome', 'Nome do Paciente', _controllerPaciente),
-            TextBox(Icons.lock_outline, 'Idade', 'Idade do Paciente',_controllerIdade),
-            RaisedButton(
-              child: Text(
-                'Confirmar',
-                style: TextStyle(fontSize: 16),
-              ),
-              onPressed: () {
-               final String name = _controllerPaciente.text;
-                final int idade = int.tryParse(_controllerIdade.text);
-                final String ifo  = Utility.base64String(_image.readAsBytesSync());
-                final User usuario = User(2,name,idade,ifo);
-                save(usuario).then((id){
-                  findAll().then((users) => debugPrint(users.toString()));
-                });
-              Navigator.pop(context);
-              },
-            )
+   
           ],
         ),
       ),
     );
   }
 }
-
-
 
 class TextBox extends StatelessWidget {
   final TextEditingController _controlador;

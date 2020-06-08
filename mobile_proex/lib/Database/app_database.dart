@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<Database> createDatabase() {
   return getDatabasesPath().then((dbPath) {
-    final String path = join(dbPath, 'pacientdetsegd.db');
+    final String path = join(dbPath, 'bancomeu.db');
     return openDatabase(path, onCreate: (db, version) {
       db.execute('CREATE TABLE usuario('
           'id INTEGER PRIMARY KEY, '

@@ -21,8 +21,11 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  image_picker: ^ 0.6.7+1
+  image_cropper: ^1.2.2
   flutter:
     sdk: flutter
+  
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -34,7 +37,7 @@ dev_dependencies:
     sdk: flutter
   sqflite:
   path:
-  image_picker:
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
